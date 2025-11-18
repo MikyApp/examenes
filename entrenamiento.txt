@@ -1,0 +1,22 @@
+from ultralytics import YOLO
+import os
+
+if __name__=="__main__":
+    model=YOLO('yolo11n.pt')#Importando el modelo de deteccion
+
+    #Definir parametros del modelo
+    train_results=model.train(
+        data='E:/Reconocimiento de cartas.v1-cartas.yolov11/data.yaml',
+        epochs=100,
+        imgsz=440,
+        device="0" #Escribir "cpu"
+        #Si se cuenta con tarjetas graficas escribir "0","1"
+    )
+    #Realizando la deteccion de resultados
+    metrics=model.val()
+    results=model("E:/Reconocimiento de cartas.v1-cartas.yolov11/test/images/IMG_20251109_132622_jpg.rf.8a5ddb32df034005bf0454481b4000e6.jpg")
+
+    if results and len(results)>0:
+        results[0].show()
+    else:
+        print("No se obtuvieron resultados")
